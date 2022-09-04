@@ -20,4 +20,23 @@ class TextAnimation {
         console.log("DONE")
     }
 
+    createWord({text="NULL", font="Calibri", xBegin=0, xEnd=0, yBegin=0, yEnd=0, fontsizeStart=1, fontsizeEnd=1, colour="#000000", duration=1000, sceneNumber=1} = {}) {
+        const word = {
+            text: text,
+            font: font,
+            x: xBegin,
+            y: yBegin,
+            xEnd: xEnd,
+            yEnd: yEnd,
+            xStep: -(xBegin-xEnd)/duration,
+            yStep: -(yBegin-yEnd)/duration,
+            fontsizeStart: fontsizeStart,
+            fontsizeEnd: fontsizeEnd,
+            colour: colour,
+            duration: duration
+        }
+        if(this.scenes[sceneNumber]==undefined) this.scenes[sceneNumber]=[]
+        this.scenes[sceneNumber].push(word)
+    }
+
 }
