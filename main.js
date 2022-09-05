@@ -52,5 +52,50 @@ class TextAnimation {
         this.ctx.strokeText(word.text, word.x, word.y)
     }
 
+    moveWord(word, timestamp) {
+        if(word.startTime==null) word.startTime = timestamp
+        const wordRuntime = timestamp - word.startTime
+
+        const moveX = (wordRuntime/word.duration * word.xDistance)
+        const moveY = (wordRuntime/word.duration * word.yDistance)
+
+        // Ensures it ends at destination pixel
+        if(moveX>0) {
+            word.x = Math.min(moveX + word.xInitial, word.xEnd)
+        } else if(moveX<0) {
+            word.x = Math.max(moveX + word.xInitial, word.xEnd)
+        } else {
+            word.x = moveX + word.xInitial
+        }
+        if(moveY>0) {
+            word.y = Math.min(moveY + word.yInitial, word.yEnd)
+        } else if(moveY<0) {
+            word.y = Math.max(moveY + word.yInitial, word.yEnd)
+        } else {
+            word.y = moveY + word.yInitial
+        }
+
+        if(word.x==word.xEnd || word.y==word.yEnd) {
+            word.animate=false
+        }
+    }
+
+    animateScene(timestamp=new Date().getTime(), sceneNumber, duration, starttime) {
+        this.ctx.clearRect(0,0,this.WIDTH,this.HEIGHT)
+        this.ctx.fillStyle = "#000000"
+        this.ctx.fillRect(0,0,this.WIDTH,this.HEIGHT)
+        
+        if((timestamp - starttime)>duration) return
+
+        this.scenes[sceneNumber].forEach(word => {
+            this.drawWord(word)
+
+            if(!word.animate) return
+            this.moveWord(word,timestamp)
+        })
+
+        requestAnimationFrame((t) => this.animateScene(t,sceneNumber,duration,starttime))
+    }
+
 
 }
