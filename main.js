@@ -20,23 +20,37 @@ class TextAnimation {
         console.log("DONE")
     }
 
-    createWord({text="NULL", font="Calibri", xBegin=0, xEnd=0, yBegin=0, yEnd=0, fontsizeStart=1, fontsizeEnd=1, colour="#000000", duration=1000, sceneNumber=1} = {}) {
+    createWord({text="NULL", font="Calibri", xInitial=0, xEnd=0, yInitial=0, yEnd=0, colour="#000000", duration=1000, sceneNumber=1} = {}) {
         const word = {
             text: text,
             font: font,
-            x: xBegin,
-            y: yBegin,
+            startTime: null,
+            x: xInitial,
+            y: yInitial,
+            xInitial: xInitial,
+            yInitial: yInitial,
             xEnd: xEnd,
             yEnd: yEnd,
-            xStep: -(xBegin-xEnd)/duration,
-            yStep: -(yBegin-yEnd)/duration,
-            fontsizeStart: fontsizeStart,
-            fontsizeEnd: fontsizeEnd,
+            xDistance: xEnd - xInitial,
+            yDistance: yEnd - yInitial,
             colour: colour,
-            duration: duration
+            duration: duration,
+            animate: true
         }
         if(this.scenes[sceneNumber]==undefined) this.scenes[sceneNumber]=[]
         this.scenes[sceneNumber].push(word)
+
+        return word
     }
+
+    drawWord(word) {
+        this.ctx.font = `1500% ${word.font}`;
+        this.ctx.lineWidth = 10;
+        this.ctx.strokeStyle = "#FF0000";
+        this.ctx.fillStyle = "#00FF00";
+        this.ctx.fillText(word.text, word.x, word.y)
+        this.ctx.strokeText(word.text, word.x, word.y)
+    }
+
 
 }
