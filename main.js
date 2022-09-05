@@ -97,5 +97,9 @@ class TextAnimation {
         requestAnimationFrame((t) => this.animateScene(t,sceneNumber,duration,starttime))
     }
 
-
+    startScene(sceneNumber=1, duration=1000) {
+        requestAnimationFrame((t=new Date().getTime()) => {
+            this.animateScene(t,sceneNumber,duration,t)
+        })
+    }
 }
