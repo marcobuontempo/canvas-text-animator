@@ -14,6 +14,16 @@ class TextAnimation {
         this.ctx.textBaseline = "middle";
     }
 
+    getScenesInfo() {
+        for(let i=1; i<this.scenes.length; i++) {
+            let info = `SCENE NUMBER: ${i}\nDURATION: ${this.sceneDurations[i]}\n\nWORDS:\n`
+            this.scenes[i].forEach((word, idx) => {
+                info += `   (${idx+1}) Text: ${word.text}\n       Duration: ${word.duration}ms\n`
+            })
+            console.log(info)
+        }
+    }
+
     createWord({
         text="NULL", 
         font="Calibri", 
@@ -134,4 +144,3 @@ class TextAnimation {
         }
     }
 }
-
