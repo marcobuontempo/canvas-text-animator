@@ -23,10 +23,11 @@ class TextAnimation {
         yInitial=0, 
         yEnd=0, 
         fillColour="#000000",
-        strokeColour="#000000",
-        strokeWidth=5,
+        lineColour="#000000",
+        lineWidth=5,
         duration=1000, 
-        sceneNumber=1
+        sceneNumber=1,
+        drawOnCompletion=true
         } = {}) {
 
         const word = {
@@ -34,8 +35,8 @@ class TextAnimation {
             font: font,
             fontSize: fontSize,
             fillColour: fillColour,
-            strokeColour: strokeColour,
-            strokeWidth: strokeWidth,
+            lineColour: lineColour,
+            lineWidth: lineWidth,
             startTime: null,
             x: xInitial,
             y: yInitial,
@@ -46,7 +47,8 @@ class TextAnimation {
             xDistance: xEnd - xInitial,
             yDistance: yEnd - yInitial,
             duration: duration,
-            animate: true
+            animate: true,
+            drawOnCompletion: drawOnCompletion
         }
         if(this.scenes[sceneNumber]==undefined) this.scenes[sceneNumber]=[]
         this.scenes[sceneNumber].push(word)
@@ -57,7 +59,7 @@ class TextAnimation {
     drawWord(word) {
         this.ctx.font = `${word.fontSize}px ${word.font}`;
         this.ctx.lineWidth = word.lineWidth;
-        this.ctx.strokeStyle = word.strokeColour;
+        this.ctx.strokeStyle = word.lineColour;
         this.ctx.fillStyle = word.fillColour;
         this.ctx.fillText(word.text, word.x, word.y)
         this.ctx.strokeText(word.text, word.x, word.y)
@@ -101,10 +103,12 @@ class TextAnimation {
         this.ctx.fillRect(0,0,this.WIDTH,this.HEIGHT)
         
         this.scenes[sceneNumber].forEach(word => {
-            this.drawWord(word)
-
-            if(!word.animate) return
-            this.moveWord(word,timestamp)
+            if(word.animate) {
+                this.drawWord(word)
+                this.moveWord(word,timestamp)   
+            } else {
+                if(word.drawOnCompletion) this.drawWord(word)
+            }
         })
 
         const timeElapsed = timestamp - starttime
@@ -130,3 +134,4 @@ class TextAnimation {
         }
     }
 }
+
