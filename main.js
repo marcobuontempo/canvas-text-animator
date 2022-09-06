@@ -5,25 +5,37 @@ class TextAnimation {
 
         this.scenes = [null]
 
-        this.canvas = document.createElement("canvas")
+        document.getElementById(domID)
         canvas.width = this.WIDTH
         canvas.height = this.HEIGHT
-    
-        document.getElementById(domID)
-
         this.ctx = canvas.getContext("2d")
-
-        this.ctx.fillStyle = "#000000"
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
-        this.ctx.fillRect(0,0,this.WIDTH,this.HEIGHT)
-        console.log("DONE")
     }
 
-    createWord({text="NULL", font="Calibri", xInitial=0, xEnd=0, yInitial=0, yEnd=0, colour="#000000", duration=1000, sceneNumber=1} = {}) {
+
+    createWord({
+        text="NULL", 
+        font="Calibri", 
+        fontSize="100",
+        xInitial=0, 
+        xEnd=0, 
+        yInitial=0, 
+        yEnd=0, 
+        fillColour="#000000",
+        strokeColour="#000000",
+        strokeWidth=5,
+        duration=1000, 
+        sceneNumber=1
+        } = {}) {
+
         const word = {
             text: text,
             font: font,
+            fontSize: fontSize,
+            fillColour: fillColour,
+            strokeColour: strokeColour,
+            strokeWidth: strokeWidth,
             startTime: null,
             x: xInitial,
             y: yInitial,
@@ -33,7 +45,6 @@ class TextAnimation {
             yEnd: yEnd,
             xDistance: xEnd - xInitial,
             yDistance: yEnd - yInitial,
-            colour: colour,
             duration: duration,
             animate: true
         }
@@ -44,10 +55,10 @@ class TextAnimation {
     }
 
     drawWord(word) {
-        this.ctx.font = `1500% ${word.font}`;
-        this.ctx.lineWidth = 10;
-        this.ctx.strokeStyle = "#FF0000";
-        this.ctx.fillStyle = "#00FF00";
+        this.ctx.font = `${word.fontSize}px ${word.font}`;
+        this.ctx.lineWidth = word.lineWidth;
+        this.ctx.strokeStyle = word.strokeColour;
+        this.ctx.fillStyle = word.fillColour;
         this.ctx.fillText(word.text, word.x, word.y)
         this.ctx.strokeText(word.text, word.x, word.y)
     }
@@ -103,3 +114,7 @@ class TextAnimation {
         })
     }
 }
+
+
+
+
