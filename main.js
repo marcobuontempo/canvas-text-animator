@@ -4,6 +4,7 @@ class TextAnimation {
         this.WIDTH = width
 
         this.scenes = [null]
+        this.sceneDurations = [null]
 
         document.getElementById(domID)
         canvas.width = this.WIDTH
@@ -12,7 +13,6 @@ class TextAnimation {
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
     }
-
 
     createWord({
         text="NULL", 
@@ -91,13 +91,15 @@ class TextAnimation {
         }
     }
 
-    animateScene(timestamp=new Date().getTime(), sceneNumber, duration, starttime) {
+    addSceneDuration(sceneNumber, duration) {
+        this.sceneDurations[sceneNumber] = duration
+    }
+
+    animateScene(timestamp=new Date().getTime(), sceneNumber, starttime) {
         this.ctx.clearRect(0,0,this.WIDTH,this.HEIGHT)
         this.ctx.fillStyle = "#000000"
         this.ctx.fillRect(0,0,this.WIDTH,this.HEIGHT)
         
-        if((timestamp - starttime)>duration) return
-
         this.scenes[sceneNumber].forEach(word => {
             this.drawWord(word)
 
@@ -105,16 +107,28 @@ class TextAnimation {
             this.moveWord(word,timestamp)
         })
 
-        requestAnimationFrame((t) => this.animateScene(t,sceneNumber,duration,starttime))
+        const timeElapsed = timestamp - starttime
+        const duration = this.sceneDurations[sceneNumber]
+        if(timeElapsed>duration) return sceneNumber
+
+        requestAnimationFrame((timestamp) => this.animateScene(timestamp,sceneNumber,starttime))
     }
 
-    startScene(sceneNumber=1, duration=1000) {
-        requestAnimationFrame((t=new Date().getTime()) => {
-            this.animateScene(t,sceneNumber,duration,t)
+    startScene(sceneNumber) {
+        requestAnimationFrame((timestamp=new Date().getTime()) => {
+            this.animateScene(timestamp,sceneNumber,timestamp)
         })
     }
+
 }
 
 
 
 
+
+
+
+
+// === TODO ===
+// Add animateAllScenes method -> forEach scene, startScene
+// Add hideAfterAnimation variable to word object. Do not draw if !animate &
