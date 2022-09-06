@@ -120,15 +120,13 @@ class TextAnimation {
         })
     }
 
+    animateAll() {
+        let delay = 0
+        for(let i=1; i<this.scenes.length; i++) {
+            setTimeout(() => {
+                this.startScene(i)
+            }, delay)
+            delay += this.sceneDurations[i]
+        }
+    }
 }
-
-
-
-
-
-
-
-
-// === TODO ===
-// Add animateAllScenes method -> forEach scene, startScene
-// Add hideAfterAnimation variable to word object. Do not draw if !animate &
