@@ -1,5 +1,20 @@
-class TextAnimation {
-    constructor(width=1920, height=1080, backgroundColour="FFFFFF", domID="canvas") {
+// =======================================
+//   CANVAS TEXT ANIMATION (CTA-JS)
+// =======================================
+
+
+/**
+* Canvas Text Animation Class.
+* 
+* A class to create basic canvas text animations.
+* 
+* @param {Number} [Object.width=1920] the width of the canvas in px.
+* @param {Number} [Object.height=1080] the height of the canvas in px.
+* @param {String} [Object.backgroundColour="FFFFFF"] the canvas hexadecimal background colour.
+* @param {String} [Object.domID="canvas"] the DOM ID of the canvas element to operate on.
+*/
+class CanvasTextAnimation {
+    constructor({width=1920, height=1080, backgroundColour="#FFFFFF", domID="canvas"} = {}) {
         this.HEIGHT = height                // height of the canvas
         this.WIDTH = width                  // width of the canvas
 
@@ -225,4 +240,5 @@ class TextAnimation {
             delay += this.sceneDurations[i]
         }
     }
+    
 }
