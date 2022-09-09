@@ -142,25 +142,16 @@ class CanvasTextAnimation {
     * @param {Word} word word object to move.
     * @param {Number} timestamp current timestamp of function call. When called with requestAnimationFrame(), this timestamp is precise.
     */
-    moveWord(word, timestamp) {
+     moveWord(word, timestamp) {
         if(word.startTime==null) word.startTime = timestamp // if first time calling moveWord, set the current timestamp to the start time
         const wordRuntime = timestamp - word.startTime  // update runtime by calculating difference between current timestamp and start time
 
-        // Calculate the amount to move x & y axis
-        const moveX = (wordRuntime/word.duration * word.xDistance)
-        const moveY = (wordRuntime/word.duration * word.yDistance)
+        // Update x & y coordinates
+        word.x = Math.floor(wordRuntime * word.xStep)
+        word.y = Math.floor(wordRuntime * word.yStep)
 
-        // Ensures it ends movement at destination x-axis pixel
-        if(moveX>0) { word.x = Math.min(moveX + word.xInitial, word.xEnd) } 
-        else if(moveX<0) { word.x = Math.max(moveX + word.xInitial, word.xEnd) } 
-        else { word.x = moveX + word.xInitial }
-        // Ensures it ends movement at destination y-axis pixel
-        if(moveY>0) { word.y = Math.min(moveY + word.yInitial, word.yEnd) } 
-        else if(moveY<0) { word.y = Math.max(moveY + word.yInitial, word.yEnd) } 
-        else { word.y = moveY + word.yInitial }
-
-        // Stop animating when the final x & y coordinates are reached
-        if(word.x==word.xEnd && word.y==word.yEnd) { word.animate=false }
+        // Stop animating when the animation duration of the word has been reached
+        if(wordRuntime>=word.duration) { word.animate=false }
     }
 
 
