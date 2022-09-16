@@ -202,15 +202,15 @@ class CanvasTextAnimation {
 
 
   /**
-  * Animate Scene.
+  * Draw Scene.
   *
-  * Animates a specified scene by recursively drawing to canvas with updates to the scene's text at each call.
+  * Draws a specified scene given the specified parameters.
   * 
   * @param {Number} timestamp current timestamp of function call. Should be passed the precise timestamp from requestAnimationFrame(), but otherwise will default to the current in-built Date time.
   * @param {Number} sceneNumber the scene number to animate.
   * @param {Number} starttime the start time of the animation. Usually the precise timestamp from requestAnimationFrame().
   */
-  animateScene(timestamp = new Date().getTime(), sceneNumber, starttime) {
+  drawScene(timestamp = new Date().getTime(), sceneNumber, starttime) {
     const timeElapsed = timestamp - starttime   // Get the elapsed time of the scene
     const sceneDuration = this.scenes[sceneNumber]["duration"]   // Get the pre-set duration of the scene
 
@@ -236,6 +236,24 @@ class CanvasTextAnimation {
         if (word.drawOnCompletion) this.drawWord(word)   // if finished animating, only draw if drawOnCompletion is true
       }
     })
+  }
+
+
+  /**
+   * Animate Scene.
+   * 
+  * Animates a specified scene by recursively updating and drawing to canvas.
+   * 
+   * @param {Number} timestamp current timestamp of function call. Should be passed the precise timestamp from requestAnimationFrame(), but otherwise will default to the current in-built Date time.
+  * @param {Number} sceneNumber the scene number to animate.
+  * @param {Number} starttime the start time of the animation. Usually the precise timestamp from requestAnimationFrame().
+   * @returns 
+   */
+  animateScene(timestamp, sceneNumber, starttime) {
+    const timeElapsed = timestamp - starttime   // Get the elapsed time of the scene
+    const sceneDuration = this.scenes[sceneNumber]["duration"]   // Get the pre-set duration of the scene
+
+    this.drawScene(timestamp, sceneNumber, starttime)
 
     if (timeElapsed >= sceneDuration) return // End function if elapsed time reaches the pre-set duration
 
