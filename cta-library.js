@@ -13,7 +13,7 @@
 * @param {String} [Object.domID="canvas"] the DOM ID of the canvas element to operate on.
 */
 class CanvasTextAnimation {
-  constructor({ width = 1920, height = 1080, backgroundColour = "#FFFFFF", domID = "canvas" } = {}) {
+  constructor({ width = 1920, height = 1080, backgroundColour = "#FFFFFF", domID = "ctajs-canvas" } = {}) {
     this.HEIGHT = height                // height of the canvas
     this.WIDTH = width                  // width of the canvas
 
@@ -23,7 +23,7 @@ class CanvasTextAnimation {
     this.canvas = document.getElementById(domID)      // Element ID to access canvas in DOM
     this.canvas.width = this.WIDTH
     this.canvas.height = this.HEIGHT
-    this.ctx = canvas.getContext("2d")
+    this.ctx = this.canvas.getContext("2d")
 
     // Default sets of the canvas
     this.ctx.textAlign = "center";
