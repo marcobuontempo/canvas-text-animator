@@ -77,7 +77,9 @@
 
 1. Repeat steps 4 & 5 for your required words and scenes
 1. Animate all scenes!
-   `js ctaJS.animateAll() `
+   ```js
+   ctaJS.animateAll()
+   ```
    </br>
 
 ### **Additional Usage:**
