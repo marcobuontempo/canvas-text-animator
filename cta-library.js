@@ -9,7 +9,6 @@
 * 
 * @param {Number} [Object.width=1920] the width of the canvas in px.
 * @param {Number} [Object.height=1080] the height of the canvas in px.
-* @param {String} [Object.backgroundColour="#FFFFFF"] the canvas hexadecimal background colour.
 * @param {String} [Object.domID="canvas"] the DOM ID of the canvas element to operate on.
 */
 class CanvasTextAnimation {
@@ -28,7 +27,6 @@ class CanvasTextAnimation {
     // Default sets of the canvas
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
-    this.backgroundColour = backgroundColour;
   }
 
 
@@ -59,7 +57,8 @@ class CanvasTextAnimation {
     this.scenes[sceneNumber] = {
       words: [],
       duration: 1000,
-      zoom: 0
+      zoom: 1,
+      backgroundColour: "#FFFFFF"
     }
   }
 
@@ -187,10 +186,11 @@ class CanvasTextAnimation {
   * Set the parameters for a particular scene.
   * 
   * @param {Number} sceneNumber the scene number to set duration on.
-  * @param {Object} options.duration the time ms that the scene should exist for.
-  * @param {Object} options.zoom the zoom speed of the scene (0 <= ZOOM-OUT < 1 | 1 < ZOOM-IN | 1 == NO ZOOM).
+  * @param {Object} [options.duration] the time ms that the scene should exist for.
+  * @param {Object} [options.zoom] the zoom speed of the scene (0 <= ZOOM-OUT < 1 | 1 < ZOOM-IN | 1 == NO ZOOM).
+  * @param {String} [options.backgroundColour] the canvas hexadecimal background colour.
   */
-  setSceneOptions(sceneNumber, { duration, zoom } = {}) {
+  setSceneOptions(sceneNumber, { duration, zoom, backgroundColour } = {}) {
     if (this.scenes[sceneNumber] == undefined) this.initialiseEmptyScene(sceneNumber)
 
     // Set duration if defined in options
@@ -198,6 +198,9 @@ class CanvasTextAnimation {
 
     // Set zoom if defined in options
     if (zoom != undefined) this.scenes[sceneNumber]["zoom"] = zoom
+
+    // Set background colour if defined in options
+    if (backgroundColour != undefined) this.scenes[sceneNumber]["backgroundColour"] = backgroundColour
   }
 
 
@@ -216,7 +219,7 @@ class CanvasTextAnimation {
 
     // Clear the canvas and redraw background
     this.ctx.setTransform(1, 0, 0, 1, 0, 0)  // reverts scaling and transformations back to default state
-    this.ctx.fillStyle = this.backgroundColour
+    this.ctx.fillStyle = this.scenes[sceneNumber]["backgroundColour"]
     this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT)
 
     // Zoom Frame

@@ -6,7 +6,7 @@ A mini library for drawing basic text animations to canvas
     ```html
     <canvas id="ctajs-canvas"></canvas>
     ```
-1. Connect JavaScript to your HTML using jsDelivr
+1. Connect JavaScript to your HTML with CDN
     ```html
     <script defer src="https://cdn.jsdelivr.net/gh/marcobuontempo/canvas-text-animator@latest/cta-library.js"></script>
     ```
