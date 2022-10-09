@@ -1,6 +1,6 @@
 # Canvas Text Animator JavaScript (ctajs)
 
-**A mini library for drawing basic text animations to canvas**
+**A mini library for drawing basic text animations to the HTML <canvas>**
 </br>
 
 ## **_Basic Features:_**
@@ -85,8 +85,24 @@
 ### **Additional Usage:**
 
 - It is possible to add additional custom draws to the canvas (e.g. shapes, lines, etc.).
-- Simply modify the animateScene() method by adding your custom canvas draws after the call to drawScene().
-- Note that drawScene() will clear the canvas and redraw the background at each call, so ensure to add your custom canvas draws **_after_** this. There is a comment in the JavaScript file for the location to refer to.
+- Simply pass a custom function in the ctaOptions object when intialising the ctaJS class:
+```js
+        const ctaOptions = {
+            height: 200,
+            width: 1000,
+            domID: "ctajs-canvas",
+            customDraw: function customDraw(ctx, timestamp, timeElapsed, starttime, sceneObj) {
+                ctx.save();
+
+                /* Add custom draws here */
+
+                ctx.restore();
+            }
+        };
+```
+- A demo of a custom draw can be found in the examples below.
+- *NOTE: your custom function should take the same parameters as above (i.e. `ctx`, `timestamp`, `timeElapsed`, `starttime`, `scenObj`). Please refer to the invocation of `this.customDraw()` in cta-library.js to understand how these parameters are passed.*
+
 
 ## **_Examples:_**
 
@@ -109,11 +125,16 @@ _Note: the preview images below have significantly reduced quality compared to t
 <a href="https://codepen.io/marcobuontempo/pen/JjvWLMd">
     <img src="demo-imgs/demo3.gif" alt="ctaJS Demo 3" width="100%"/>
 </a>
+
+- ### [**Demo 4** _(showcasing a basic customDraw() function to add a rectangle to canvas)_](https://codepen.io/marcobuontempo/pen/eYrPxWm)
+<a href="https://codepen.io/marcobuontempo/pen/eYrPxWm">
+    <img src="demo-imgs/demo4.gif" alt="ctaJS Demo 4" width="100%"/>
+</a>
 </br>
 
 ## **_Support:_**
 
-This was just a small hobby project to allow easier writing to the html canvas. Not sure if anything further will be added at this stage. However, feel free to contact me for any assistance, to raise any issues, or for requests!
+This was just a small hobby project to allow easier writing to the html canvas. Not sure if anything further will be added at this stage. However, feel free to contact me for any assistance, issues, requests, etc! Or feel free to contribute :)
 </br>
 
 ## **_Licence:_**

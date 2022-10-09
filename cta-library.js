@@ -271,6 +271,7 @@ class CanvasTextAnimation {
 
     this.drawScene(timestamp, sceneNumber, starttime);
 
+    // Custom canvas draws
     if(this.customDraw !== undefined) this.customDraw(this.ctx, timestamp, timeElapsed, starttime, this.scenes[sceneNumber]);
 
     if (timeElapsed >= sceneDuration) return; // End function if elapsed time reaches the pre-set duration
