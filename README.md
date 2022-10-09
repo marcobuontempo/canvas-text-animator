@@ -84,7 +84,7 @@
 
 ### **Additional Usage:**
 
-- It is possible to added additional custom draws to the canvas (e.g. shapes, lines, etc.).
+- It is possible to add additional custom draws to the canvas (e.g. shapes, lines, etc.).
 - Simply modify the animateScene() method by adding your custom canvas draws after the call to drawScene().
 - Note that drawScene() will clear the canvas and redraw the background at each call, so ensure to add your custom canvas draws **_after_** this. There is a comment in the JavaScript file for the location to refer to.
 

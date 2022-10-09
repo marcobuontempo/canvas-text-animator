@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+
 // =======================================
 //   CANVAS TEXT ANIMATION (CTA-JS)
 // =======================================
@@ -10,15 +13,19 @@
  * @param {Number} [Object.width=1920] the width of the canvas in px.
  * @param {Number} [Object.height=1080] the height of the canvas in px.
  * @param {String} [Object.domID="canvas"] the DOM ID of the canvas element to operate on.
+ * @param {Function} [Object.customDraw] a custom callback function to make additional draws to canvas.
  */
 class CanvasTextAnimation {
   constructor({
     width = 1920,
     height = 1080,
     domID = 'ctajs-canvas',
+    customDraw,
   } = {}) {
     this.HEIGHT = height; // height of the canvas
     this.WIDTH = width; // width of the canvas
+
+    this.customDraw = customDraw,
 
     this.scenes = [null]; // Array to hold info for each scene
 
@@ -47,7 +54,6 @@ class CanvasTextAnimation {
         info += `       | Duration: ${word.duration}ms\n`;
         info += '\n';
       });
-      // eslint-disable-next-line no-console
       console.log(info);
     }
   }
@@ -265,7 +271,7 @@ class CanvasTextAnimation {
 
     this.drawScene(timestamp, sceneNumber, starttime);
 
-    // customDraw(timestamp);
+    if(this.customDraw !== undefined) this.customDraw(this.ctx, timestamp, timeElapsed, starttime, this.scenes[sceneNumber]);
 
     if (timeElapsed >= sceneDuration) return; // End function if elapsed time reaches the pre-set duration
 
