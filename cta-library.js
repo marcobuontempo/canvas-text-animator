@@ -15,8 +15,7 @@ class CanvasTextAnimation {
   constructor({
     width = 1920,
     height = 1080,
-    backgroundColour = "#FFFFFF",
-    domID = "ctajs-canvas",
+    domID = 'ctajs-canvas',
   } = {}) {
     this.HEIGHT = height; // height of the canvas
     this.WIDTH = width; // width of the canvas
@@ -27,11 +26,11 @@ class CanvasTextAnimation {
     this.canvas = document.getElementById(domID); // Element ID to access canvas in DOM
     this.canvas.width = this.WIDTH;
     this.canvas.height = this.HEIGHT;
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext('2d');
 
     // Default sets of the canvas
-    this.ctx.textAlign = "center";
-    this.ctx.textBaseline = "middle";
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
   }
 
   /**
@@ -42,12 +41,13 @@ class CanvasTextAnimation {
    */
   printScenesInfo() {
     for (let i = 1; i < this.scenes.length; i++) {
-      let info = `SCENE NUMBER: ${i}\nDURATION: ${this.scenes[i]["duration"]}\n\nWORDS:\n`;
-      this.scenes[i]["words"].forEach((word, idx) => {
-        info += `   (${idx + 1}) Text: ${word.text}\n       Duration: ${
-          word.duration
-        }ms\n`;
+      let info = `SCENE NUMBER: ${i}\nDURATION: ${this.scenes[i].duration}\n\nWORDS:\n`;
+      this.scenes[i].words.forEach((word, idx) => {
+        info += `   (${idx + 1}) | Text: "${word.text}"\n`;
+        info += `       | Duration: ${word.duration}ms\n`;
+        info += '\n';
       });
+      // eslint-disable-next-line no-console
       console.log(info);
     }
   }
@@ -64,7 +64,7 @@ class CanvasTextAnimation {
       words: [],
       duration: 1000,
       zoom: 1,
-      backgroundColour: "#FFFFFF",
+      backgroundColour: '#FFFFFF',
     };
   }
 
@@ -83,18 +83,18 @@ class CanvasTextAnimation {
    * @param {String} [Object.fillColour="#000000"] a hexadecimal colour code to fill the text.
    * @param {String} [Object.lineColour="#000000"] a hexadecimal colour code to outline the text.
    * @param {Number} [Object.lineWidth=1] the width of the text outline.
-   * @param {Number} [Object.duration=1000] the duration ms for the text to be be displayed and animate for.
+   * @param {Number} [Object.duration=1000] the duration ms for the text to be be displayed for.
    * @param {Number} [Object.sceneNumber=1] the scene number for the text to animate in.
-   * @param {Boolean} [Object.drawOnCompletion=true] whether the text will continue to display after completing animation.
+   * @param {Boolean} [Object.drawOnCompletion=true] persist the display of text after animation.
    *
    * @return {Object} Word object
    */
   createWord({
-    text = "NULL",
-    font = "Calibri",
+    text = 'NULL',
+    font = 'Calibri',
     fontSize = 100,
-    fillColour = "#000000",
-    lineColour = "#000000",
+    fillColour = '#000000',
+    lineColour = '#000000',
     lineWidth = 1,
     xInitial = 0,
     xEnd = 0,
@@ -105,30 +105,29 @@ class CanvasTextAnimation {
     sceneNumber = 1,
   } = {}) {
     const word = {
-      text: text,
-      font: font,
-      fontSize: fontSize,
-      fillColour: fillColour,
-      lineColour: lineColour,
-      lineWidth: lineWidth,
+      text,
+      font,
+      fontSize,
+      fillColour,
+      lineColour,
+      lineWidth,
       startTime: null,
       x: xInitial,
       y: yInitial,
-      xInitial: xInitial,
-      yInitial: yInitial,
-      xEnd: xEnd,
-      yEnd: yEnd,
+      xInitial,
+      yInitial,
+      xEnd,
+      yEnd,
       xStep: (xEnd - xInitial) / duration,
       yStep: (yEnd - yInitial) / duration,
-      drawOnCompletion: drawOnCompletion,
-      duration: duration,
+      drawOnCompletion,
+      duration,
       animate: true,
     };
 
     // Add word object to scenes timeline
-    if (this.scenes[sceneNumber] == undefined)
-      this.initialiseEmptyScene(sceneNumber);
-    this.scenes[sceneNumber]["words"].push(word);
+    if (this.scenes[sceneNumber] === undefined) this.initialiseEmptyScene(sceneNumber);
+    this.scenes[sceneNumber].words.push(word);
 
     return word;
   }
@@ -153,7 +152,7 @@ class CanvasTextAnimation {
   /**
    * Move Word.
    *
-   * Updates the x & y coordinates of a word, based on the duration of the last frame drawn on canvas.
+   * Updates the x,y coordinates of a word, based on the duration of the last frame drawn on canvas.
    *
    * @param {Word} word word object to move.
    * @param {Number} timestamp current timestamp of function call. When called with requestAnimationFrame(), this timestamp is precise.
@@ -197,18 +196,16 @@ class CanvasTextAnimation {
    * @param {String} [options.backgroundColour] the canvas hexadecimal background colour.
    */
   setSceneOptions(sceneNumber, { duration, zoom, backgroundColour } = {}) {
-    if (this.scenes[sceneNumber] == undefined)
-      this.initialiseEmptyScene(sceneNumber);
+    if (this.scenes[sceneNumber] === undefined) this.initialiseEmptyScene(sceneNumber);
 
     // Set duration if defined in options
-    if (duration != undefined) this.scenes[sceneNumber]["duration"] = duration;
+    if (duration !== undefined) this.scenes[sceneNumber].duration = duration;
 
     // Set zoom if defined in options
-    if (zoom != undefined) this.scenes[sceneNumber]["zoom"] = zoom;
+    if (zoom !== undefined) this.scenes[sceneNumber].zoom = zoom;
 
     // Set background colour if defined in options
-    if (backgroundColour != undefined)
-      this.scenes[sceneNumber]["backgroundColour"] = backgroundColour;
+    if (backgroundColour !== undefined) this.scenes[sceneNumber].backgroundColour = backgroundColour;
   }
 
   /**
@@ -222,29 +219,26 @@ class CanvasTextAnimation {
    */
   drawScene(timestamp = new Date().getTime(), sceneNumber, starttime) {
     const timeElapsed = timestamp - starttime; // Get the elapsed time of the scene
-    const sceneDuration = this.scenes[sceneNumber]["duration"]; // Get the pre-set duration of the scene
+    const sceneDuration = this.scenes[sceneNumber].duration; // Get the pre-set duration of the scene
 
     // Clear the canvas and redraw background
     this.ctx.setTransform(1, 0, 0, 1, 0, 0); // reverts scaling and transformations back to default state
-    this.ctx.fillStyle = this.scenes[sceneNumber]["backgroundColour"];
+    this.ctx.fillStyle = this.scenes[sceneNumber].backgroundColour;
     this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
     // Zoom Frame
     // get zoom amount
     let zoom;
-    if (this.scenes[sceneNumber]["zoom"] > 1) {
-      zoom =
-        1 + (timeElapsed / sceneDuration) * this.scenes[sceneNumber]["zoom"];
+    if (this.scenes[sceneNumber].zoom > 1) {
+      zoom = 1 + (timeElapsed / sceneDuration) * this.scenes[sceneNumber].zoom;
     } else {
-      zoom =
-        1 -
-        (timeElapsed / sceneDuration) * (1 - this.scenes[sceneNumber]["zoom"]);
+      zoom = 1 - (timeElapsed / sceneDuration) * (1 - this.scenes[sceneNumber].zoom);
     }
     this.ctx.setTransform(zoom, 0, 0, zoom, this.WIDTH / 2, this.HEIGHT / 2); // zooms in centre of canvas
     this.ctx.translate(-this.WIDTH / 2, -this.HEIGHT / 2); // repositions origin back to default position on canvas (i.e. top-left)
 
     // Update and draw each word in scene
-    this.scenes[sceneNumber]["words"].forEach((word) => {
+    this.scenes[sceneNumber].words.forEach((word) => {
       if (word.animate) {
         // draw and move word if animating
         this.moveWord(word, timestamp);
@@ -267,20 +261,16 @@ class CanvasTextAnimation {
    */
   animateScene(timestamp, sceneNumber, starttime) {
     const timeElapsed = timestamp - starttime; // Get the elapsed time of the scene
-    const sceneDuration = this.scenes[sceneNumber]["duration"]; // Get the pre-set duration of the scene
+    const sceneDuration = this.scenes[sceneNumber].duration; // Get the pre-set duration of the scene
 
     this.drawScene(timestamp, sceneNumber, starttime);
-    /**
-     * =========================================================
-     * !!!  ADD YOUR CUSTOM CANVAS DRAWS HERE IF REQUIRED :) !!!
-     * =========================================================
-     */
+
+    // customDraw(timestamp);
 
     if (timeElapsed >= sceneDuration) return; // End function if elapsed time reaches the pre-set duration
 
-    requestAnimationFrame((timestamp) =>
-      this.animateScene(timestamp, sceneNumber, starttime)
-    ); // Draw the next animation frame. Pass the timestamp and starttime so that the next animation call can determine the elapsed time (and how much to move words)
+    // Draw the next animation frame. Pass the timestamp and starttime so that the next animation call can determine the elapsed time (and how much to move words)
+    requestAnimationFrame((timestamp) => this.animateScene(timestamp, sceneNumber, starttime));
   }
 
   /**
@@ -307,7 +297,7 @@ class CanvasTextAnimation {
     let delay = 0;
     for (let i = 1; i < this.scenes.length; i++) {
       setTimeout(() => this.startScene(i), delay);
-      delay += this.scenes[i]["duration"];
+      delay += this.scenes[i].duration;
     }
   }
 }
