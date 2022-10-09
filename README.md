@@ -36,12 +36,13 @@
      height: 200,
      width: 1000,
      domID: "ctajs-canvas",
+     customDraw: undefined
    };
 
    const ctaJS = new CanvasTextAnimation(ctaOptions);
    ```
 
-1. Create word objects to use in each scene _(refer to .js file for information about each parameter)_
+1. Create word objects to use in each scene _(refer to .js file for information about each parameter. Most 'drawing' parameters actually refer to the [default styles and colours with HTML canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors))_
 
    ```js
    const wordOptions = {
