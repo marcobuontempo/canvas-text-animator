@@ -1,6 +1,6 @@
 # Canvas Text Animator JavaScript (ctajs)
 
-**A mini library for drawing basic text animations to the HTML <canvas>**
+**A mini library for drawing basic text animations to the HTML `<canvas>`**
 </br>
 
 ## **_Basic Features:_**
@@ -33,10 +33,10 @@
 
    ```js
    const ctaOptions = {
-     height: 200,
-     width: 1000,
-     domID: "ctajs-canvas",
-     customDraw: undefined
+     height: 200,                 //height of canvas (px)
+     width: 1000,                 //height of canvas (px)
+     domID: "ctajs-canvas",       //DOM id that you assigned to your `<canvas>` element
+     customDraw: undefined        //a callback function for custom canvas draws (more detail can be found on this further below)
    };
 
    const ctaJS = new CanvasTextAnimation(ctaOptions);
@@ -46,19 +46,19 @@
 
    ```js
    const wordOptions = {
-     text: "ctaJS",
-     font: "Brush Script MT",
-     fontSize: 72,
-     fillColour: "#3F826D",
-     lineColour: "#545E75",
-     lineWidth: 2,
-     xInitial: ctaJS.WIDTH / 2,
-     yInitial: 0,
-     xEnd: ctaJS.WIDTH / 2,
-     yEnd: ctaJS.HEIGHT / 2,
-     duration: 5000,
-     drawOnCompletion: true,
-     sceneNumber: 1,
+     text: "ctaJS",               //actual string of text to draw onto canvas
+     font: "Brush Script MT",     //font style to use
+     fontSize: 72,                //font size (px)
+     fillColour: "#3F826D",       //hexadecimal colour code for the text in-fill
+     lineColour: "#545E75",       //hexadecimal colour code for the text outline
+     lineWidth: 2,                //thickness of the text
+     xInitial: ctaJS.WIDTH / 2,   //starting x-axis position of the drawn text (px)
+     yInitial: 0,                 //starting y-axis position of the drawn text (px)
+     xEnd: ctaJS.WIDTH / 2,       //ending x-axis position of the drawn text (px)
+     yEnd: ctaJS.HEIGHT / 2,      //starting y-axis position of the drawn text (px)
+     duration: 5000,              //duration of the text's animation (ms)
+     drawOnCompletion: true,      //whether to continue rendering text in scene after its duration has elapsed (boolean)
+     sceneNumber: 1,              //assign it to the scene number you want to draw in
    };
 
    ctaJS.createWord(wordOptions);
@@ -68,12 +68,12 @@
 
    ```js
    const sceneOptions = {
-     duration: 5000,
-     zoom: 1.1,
-     backgroundColour: "#F2D0A4",
+     duration: 5000,                //duration of the entire scene's animation (ms)
+     zoom: 1.1,                     //a linear zoom factor
+     backgroundColour: "#F2D0A4",   //hexadecimal colour code for the scene's background
    };
 
-   ctaJS.setSceneOptions(1, sceneOptions);
+   ctaJS.setSceneOptions(1, sceneOptions);  //first argument is the scene number to create (in this example, scene #1)
    ```
 
 1. Repeat steps 4 & 5 for your required words and scenes
@@ -93,21 +93,21 @@
             width: 1000,
             domID: "ctajs-canvas",
             customDraw: function customDraw(ctx, timestamp, timeElapsed, starttime, sceneObj) {
-                ctx.save();
-
+                ctx.save();     //save the current settings/state of canvas before custom draw
+                
                 /* Add custom draws here */
-
-                ctx.restore();
+                
+                ctx.restore();  //restore the saved settings/state of canvas after custom draws are completed
             }
         };
 ```
 - A demo of a custom draw can be found in the examples below.
 - *NOTE: your custom function should take the same parameters as above (i.e. `ctx`, `timestamp`, `timeElapsed`, `starttime`, `scenObj`). Please refer to the invocation of `this.customDraw()` in cta-library.js to understand how these parameters are passed.*
-
+- *NOTE: `use ctx.save();` and `ctx.restore();` at the start and end of your function, respectively, to prevent unexpected behaviour with the canvas.*
 
 ## **_Examples:_**
 
-_Note: the preview images below have significantly reduced quality compared to the actual web rendering_</br>
+_Note: the preview images below have a **significant** reduction in quality and animation compared to the actual web rendering_</br>
 **Click a demo below to check out the codepen and actual rendering!**
 
 - ### [**Demo 1** _(as per the usage example above)_](https://codepen.io/marcobuontempo/pen/vYjxpLd)
